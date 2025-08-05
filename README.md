@@ -1,5 +1,5 @@
 # Projeto Arquitetura de Sistemas QualificaSP
----
+
 # 🎯 Contexto e Problematização
 Você foi contratado como desenvolvedor júnior pela startup DeliveryTech, uma nova empresa que quer competir com iFood e Uber Eats. O CTO da empresa te deu a primeira missão:
 
