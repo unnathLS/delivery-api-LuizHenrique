@@ -1,3 +1,5 @@
+package com.deliverytech.delivery.repository;
+
 import com.deliverytech.delivery.entity.Restaurante;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
@@ -34,5 +36,16 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long> 
      * @return Uma lista de restaurantes ativos, ordenada pela avaliação.
      */
     List<Restaurante> findByAtivoTrueOrderByAvaliacaoDesc();
+
+    /**
+     * Encontra todos os restaurantes ativos pertencentes a uma categoria
+     * específica.
+     * Os resultados são ordenados pela avaliação em ordem decrescente.
+     *
+     * @param categoria A categoria dos restaurantes a serem buscados.
+     * @return Uma lista de restaurantes ativos da categoria especificada,
+     *         ordenados da maior para a menor avaliação.
+     */
+    List<Restaurante> FindByCategoriaAdndAtivoTrueOrderByAvaliacaoDesc(String categoria);
 
 }

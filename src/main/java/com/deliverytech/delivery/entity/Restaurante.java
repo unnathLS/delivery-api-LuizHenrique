@@ -4,8 +4,12 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class Restaurante {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,10 +20,11 @@ public class Restaurante {
     private boolean ativo;
     private Double avaliacao;
 
-    public Restaurante(){
+    public Restaurante() {
 
     }
-    public Restaurante(String nome, String categoria, boolean ativo, Double avaliacao ){
+
+    public Restaurante(String nome, String categoria, boolean ativo, Double avaliacao) {
         this.nome = nome;
         this.categoria = categoria;
         this.ativo = ativo;

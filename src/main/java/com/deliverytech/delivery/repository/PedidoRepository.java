@@ -37,4 +37,14 @@ public interface PedidoRepository extends JpaRepository<Pedido, Long> {
             @Param("dataInicial") Date dataInicial,
             @Param("dataFinal") Date dataFinal);
 
+    /**
+     * Encontra todos os pedidos de um cliente específico com um determinado status.
+     *
+     * @param clienteId O ID do cliente.
+     * @param status    O status dos pedidos a serem buscados (por exemplo,
+     *                  "EM_PREPARACAO").
+     * @return Uma lista de pedidos que correspondem aos critérios.
+     */
+    List<Pedido> findByClienteIdAndStatus(Long clienteId, String status);
+
 }

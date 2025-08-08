@@ -1,3 +1,5 @@
+package com.deliverytech.delivery.repository;
+
 import com.deliverytech.delivery.entity.Produto;
 import com.deliverytech.delivery.entity.Restaurante;
 import org.springframework.data.jpa.repository.JpaRepository;
