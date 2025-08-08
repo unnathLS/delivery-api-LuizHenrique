@@ -1,4 +1,4 @@
-package com.deliverytech.delivery.entity;
+package com.deliverytech.delivery.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
