@@ -46,6 +46,6 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long> 
      * @return Uma lista de restaurantes ativos da categoria especificada,
      *         ordenados da maior para a menor avaliação.
      */
-    List<Restaurante> FindByCategoriaAdndAtivoTrueOrderByAvaliacaoDesc(String categoria);
+    // List<Restaurante> findByCategoriaAndAtivoOrderByAvaliacaoDesc(String categoria);
 
 }

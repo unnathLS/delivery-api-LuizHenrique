@@ -50,7 +50,7 @@ public class PedidoService {
         return pedidoRepository.findById(id);
     }
 
-    public Pedido AtualizarStatus(Long id, String novoStatus) {
+    public Pedido atualizarStatus(Long id, String novoStatus) {
         return pedidoRepository.findById(id)
                 .map(pedidoExistente -> {
                             pedidoExistente.setStatus(novoStatus);

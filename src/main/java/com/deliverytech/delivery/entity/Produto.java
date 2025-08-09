@@ -2,7 +2,7 @@ package com.deliverytech.delivery.entity;
 
 import java.math.BigDecimal;
 
-import org.hibernate.annotations.ManyToAny;
+// import org.hibernate.annotations.ManyToAny;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
