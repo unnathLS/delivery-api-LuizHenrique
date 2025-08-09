@@ -1,61 +1,106 @@
-# Projeto Arquitetura de Sistemas QualificaSP
+# Delivery API
 
-# 🎯 Contexto e Problematização
-Você foi contratado como desenvolvedor júnior pela startup DeliveryTech, uma nova empresa que quer competir com iFood e Uber Eats. O CTO da empresa te deu a primeira missão:
-
-"Precisamos começar do zero. Temos uma ideia revolucionária para delivery, mas precisamos de uma base sólida.
-Sua missão é preparar o ambiente de desenvolvimento e criar a estrutura inicial do nosso sistema.
-Lembre-se: grandes projetos começam com fundações bem construídas!"
----
-
-# 🚀 Cenário Real
-Imagine que você está no primeiro dia de trabalho em uma startup. O time de produto já definiu que o sistema deve:
-
-⚖️ Ser escalável (começar pequeno, crescer grande)
-
-🛠️ Usar tecnologias modernas e confiáveis (JDK 21 LTS)
-
-🧑‍💻 Ter um ambiente de desenvolvimento padronizado
-
-🤝 Permitir que outros desenvolvedores entrem no projeto facilmente
+Uma API RESTful para gerenciar pedidos, clientes, restaurantes e produtos em uma plataforma de delivery. Este projeto foi desenvolvido como parte de um programa de estudos em Spring Boot, seguindo uma arquitetura de camadas bem definida.
 
 ---
 
+### **Tecnologias Utilizadas**
 
-# Delivery Tech API
+- **Java 21**
+- **Spring Boot 3.5.4**
+- **Spring Data JPA**
+- **Maven**
+- **H2 Database** (para desenvolvimento e testes em memória)
+- **Lombok** (para simplificar o código das entidades)
 
-Sistema de delivery desenvolvido com Spring Boot e Java 21.
+---
 
-## 🚀 Tecnologias
-- **Java 21 LTS** (versão mais recente)
-- Spring Boot 3.5.4
-- Spring Web
-- Spring Data JPA
-- H2 Database
-- Maven
+### **Pré-requisitos**
 
-## ⚡ Recursos Modernos Utilizados
-- Records (Java 14+)
-- Text Blocks (Java 15+)
-- Pattern Matching (Java 17+)
-- Virtual Threads (Java 21)
+Para rodar a aplicação, você precisa ter instalado:
 
-## 🏃‍♂️ Como executar
-1. **Pré-requisitos:** JDK 21 instalado
-2. Clone o repositório
-3. Execute: `./mvnw spring-boot:run`
-4. Acesse: http://localhost:8080/health
+- Java Development Kit (JDK) 21 ou superior
+- Apache Maven
 
-## 📋 Endpoints
-- GET /health - Status da aplicação (inclui versão Java)
-- GET /info - Informações da aplicação
-- GET /h2-console - Console do banco H2
+---
 
-## 🔧 Configuração
-- Porta: 8080
-- Banco: H2 em memória
-- Profile: development
+### **Como Executar**
 
-## 👨‍💻 Desenvolvedor
-[Luiz Henrique] - [STI58 02728]  
-Desenvolvido com JDK 21 e Spring Boot 3.5.4
+1. **Clone o repositório:**
+    
+    ```bash
+    git clone https://github.com/unnathLS/delivery-api-LuizHenrique.git
+    
+    ```
+    
+2. **Navegue até o diretório do projeto:**
+    
+    ```bash
+    cd delivery-api-LuizHenrique
+    
+    ```
+    
+3. **Inicie a aplicação:**
+A aplicação será iniciada na porta `8080`.
+    
+    ```bash
+    ./mvnw spring-boot:run
+    
+    ```
+    
+
+---
+
+### **Endpoints da API**
+
+Todos os endpoints estão disponíveis na URL base `http://localhost:8080`.
+
+### **Clientes (`/clientes`)**
+
+| Método | Endpoint | Descrição | Exemplo de Body |
+| --- | --- | --- | --- |
+| **POST** | `/clientes` | Cadastra um novo cliente | `{ "nome": "Ana Souza", "email": "ana.souza@email.com", "senha": "ana123" }` |
+| **GET** | `/clientes` | Lista todos os clientes | N/A |
+| **GET** | `/clientes/{id}` | Busca um cliente pelo ID | N/A |
+| **PUT** | `/clientes/{id}` | Atualiza um cliente pelo ID | `{ "nome": "Ana Souza Santos", "email": "ana.s.santos@email.com" }` |
+| **PATCH** | `/clientes/{id}/inativar` | Inativa um cliente | N/A |
+| **PATCH** | `/clientes/{id}/ativar` | Ativa um cliente | N/A |
+
+### **Restaurantes (`/restaurantes`)**
+
+| Método | Endpoint | Descrição | Exemplo de Body |
+| --- | --- | --- | --- |
+| **POST** | `/restaurantes` | Cadastra um novo restaurante | `{ "nome": "Pizzaria do Bairro", "categoria": "Pizza" }` |
+| **GET** | `/restaurantes` | Lista todos os restaurantes | N/A |
+| **GET** | `/restaurantes/{id}` | Busca um restaurante pelo ID | N/A |
+| **PUT** | `/restaurantes/{id}` | Atualiza um restaurante pelo ID | `{ "nome": "Pizzaria do Bairro", "categoria": "Italiana" }` |
+| **PATCH** | `/restaurantes/{id}/inativar` | Inativa um restaurante | N/A |
+| **PATCH** | `/restaurantes/{id}/ativar` | Ativa um restaurante | N/A |
+
+### **Produtos (`/produtos`)**
+
+| Método | Endpoint | Descrição | Exemplo de Body |
+| --- | --- | --- | --- |
+| **POST** | `/produtos` | Cadastra um novo produto | `{ "nome": "Pizza Margherita", "descricao": "Queijo, tomate e manjericão", "preco": 45.00, "restaurante": { "id": 1 } }` |
+| **GET** | `/produtos` | Lista todos os produtos | N/A |
+| **GET** | `/produtos/{id}` | Busca um produto pelo ID | N/A |
+
+### **Pedidos (`/pedidos`)**
+
+| Método | Endpoint | Descrição | Exemplo de Body |
+| --- | --- | --- | --- |
+| **POST** | `/pedidos` | Cria um novo pedido | `{ "cliente": { "id": 1 }, "restaurante": { "id": 1 }, "produtos": [ { "id": 1 } ] }` |
+| **GET** | `/pedidos` | Lista todos os pedidos | N/A |
+| **GET** | `/pedidos/{id}` | Busca um pedido pelo ID | N/A |
+| **PATCH** | `/pedidos/{id}/status/{novoStatus}` | Altera o status do pedido | N/A |
+
+---
+
+### **Estrutura do Projeto**
+
+O projeto segue a arquitetura de camadas, com responsabilidades bem definidas:
+
+- `controller/`: Gerencia as requisições HTTP e as respostas.
+- `service/`: Contém a lógica de negócio da aplicação.
+- `repository/`: Responsável pela interação com o banco de dados.
+- `entity/`: Representa o modelo de dados e as tabelas do banco.
