@@ -24,7 +24,7 @@ public class Produto {
     private String nome;
     private String categoria;
     private String descricao;
-    private boolean disponibilidade;
+    private boolean disponivel;
     private BigDecimal preco;
 
     @ManyToOne
@@ -34,11 +34,11 @@ public class Produto {
 
     }
 
-    public Produto(String nome, String categoria, boolean disponibilidade, Restaurante restaurante, BigDecimal preco,
+    public Produto(String nome, String categoria, boolean disponivel, Restaurante restaurante, BigDecimal preco,
             String descricao) {
         this.nome = nome;
         this.categoria = categoria;
-        this.disponibilidade = disponibilidade;
+        this.disponivel = disponivel;
         this.restaurante = restaurante;
         this.preco = preco;
         this.descricao = descricao;

@@ -2,6 +2,8 @@ package com.deliverytech.delivery.repository;
 
 import com.deliverytech.delivery.entity.Restaurante;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface RestauranteRepository extends JpaRepository<Restaurante, Long> {
@@ -30,22 +32,19 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long> 
     List<Restaurante> findByAtivoTrue();
 
     /**
-     * Busca todos os restaurantes ativos e os ordena pela avaliações de forma
-     * decrescente.
+     * Busca todos os restaurantes com taxa de entrega menor ou igual ao valor especificado.
      * 
-     * @return Uma lista de restaurantes ativos, ordenada pela avaliação.
+     * @param taxaEntrega O valor máximo da taxa de entrega.
+     * @return Uma lista de restaurantes com taxa de entrega menor ou igual ao valor especificado.
      */
-    List<Restaurante> findByAtivoTrueOrderByAvaliacaoDesc();
-
+    
+    List<Restaurante> findByTaxaEntregaLessThanEqual(BigDecimal taxaEntrega);
+   
     /**
-     * Encontra todos os restaurantes ativos pertencentes a uma categoria
-     * específica.
-     * Os resultados são ordenados pela avaliação em ordem decrescente.
-     *
-     * @param categoria A categoria dos restaurantes a serem buscados.
-     * @return Uma lista de restaurantes ativos da categoria especificada,
-     *         ordenados da maior para a menor avaliação.
+     * Busca os 5 primeiros restaurantes ordenados pelo nome em ordem ascendente.
+     * 
+     * @return Uma lista de até 5 restaurantes ordenados pelo nome.
      */
-    // List<Restaurante> findByCategoriaAndAtivoOrderByAvaliacaoDesc(String categoria);
+    List<Restaurante> findTop5ByOrderByNomeAsc();
 
 }
