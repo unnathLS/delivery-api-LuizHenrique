@@ -20,17 +20,17 @@ public class Restaurante {
     private String categoria;
     private boolean ativo;
     private BigDecimal taxaEntrega;
-    private Double avaliacao;
+    private BigDecimal avaliacao;
 
     public Restaurante() {
 
     }
 
-    public Restaurante(String nome, String categoria, boolean ativo, Double avaliacao, BigDecimal taxaEntrega) {
+    public Restaurante(String nome, String categoria, boolean ativo, BigDecimal taxaEntrega, BigDecimal avaliacao) {
         this.nome = nome;
         this.categoria = categoria;
         this.ativo = ativo;
-        this.avaliacao = avaliacao;
         this.taxaEntrega = taxaEntrega;
+        this.avaliacao = avaliacao;
     }
 }

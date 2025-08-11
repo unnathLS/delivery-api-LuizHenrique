@@ -1,7 +1,8 @@
 package com.deliverytech.delivery.entity;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
+// import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -23,7 +24,7 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Date data;
+    private LocalDateTime pedidoData;
     private String status;
     private BigDecimal valorTotal;
 
@@ -39,8 +40,8 @@ public class Pedido {
     public Pedido() {
     }
 
-    public Pedido(Date data, String status, Long id, Cliente cliente, Restaurante restaurante, BigDecimal valorTotal) {
-        this.data = data;
+    public Pedido(LocalDateTime pedidoData, String status, Long id, Cliente cliente, Restaurante restaurante, BigDecimal valorTotal) {
+        this.pedidoData = pedidoData;
         this.status = status;
         this.cliente = cliente;
         this.restaurante = restaurante;
