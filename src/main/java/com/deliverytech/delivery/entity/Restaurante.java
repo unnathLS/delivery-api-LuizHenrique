@@ -1,36 +1,26 @@
 package com.deliverytech.delivery.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
 import java.math.BigDecimal;
+
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Restaurante {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nome;
     private String categoria;
-    private boolean ativo;
+    private String descricao;
+    private BigDecimal avalicao;
     private BigDecimal taxaEntrega;
-    private BigDecimal avaliacao;
+    private boolean ativo;
 
-    public Restaurante() {
-
-    }
-
-    public Restaurante(String nome, String categoria, boolean ativo, BigDecimal taxaEntrega, BigDecimal avaliacao) {
-        this.nome = nome;
-        this.categoria = categoria;
-        this.ativo = ativo;
-        this.taxaEntrega = taxaEntrega;
-        this.avaliacao = avaliacao;
-    }
 }

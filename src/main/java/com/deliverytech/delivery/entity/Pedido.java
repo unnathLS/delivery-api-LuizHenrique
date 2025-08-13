@@ -1,50 +1,45 @@
 package com.deliverytech.delivery.entity;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-// import java.util.Date;
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Pedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime pedidoData;
-    private String status;
-    private BigDecimal valorTotal;
+    private String clienteNome;
 
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ItemPedido> itens;
+
+    // private BigDecimal valorTotal;
     @ManyToOne
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     @ManyToOne
+    @JoinColumn(name = "restaurante_id")
     private Restaurante restaurante;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Produto> produtos;
-
-    public Pedido() {
-    }
-
-    public Pedido(LocalDateTime pedidoData, String status, Long id, Cliente cliente, Restaurante restaurante, BigDecimal valorTotal) {
-        this.pedidoData = pedidoData;
-        this.status = status;
-        this.cliente = cliente;
-        this.restaurante = restaurante;
-        this.valorTotal = valorTotal;
+    public BigDecimal getValorTotal() {
+        if (itens == null || itens.isEmpty()) {
+            return BigDecimal.ZERO;
+        }
+        return itens.stream()
+                .map(item -> item.getProduto().getPreco().multiply(BigDecimal.valueOf(item.getQuantidade())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .add(restaurante != null && restaurante.getTaxaEntrega() != null ? restaurante.getTaxaEntrega()
+                        : BigDecimal.ZERO);
     }
 }

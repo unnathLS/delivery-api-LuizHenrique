@@ -1,33 +1,37 @@
 package com.deliverytech.delivery.entity;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nome;
-    @Column(nullable =  false , unique = true)
     private String email;
     private boolean ativo;
+    private String cpf;
+    private String telefone;
 
-    public Cliente() {
-    }
-
-    public Cliente(String email, String nome, boolean ativo) {
-        this.email = email;
+    /**
+     * Construtor para criar um cliente com os campos obrigatórios.
+     *
+     * @param nome O nome do cliente.
+     * @param email O email do cliente.
+     * @param ativo Indica se o cliente está ativo.
+     * @param cpf O CPF do cliente.
+     * @param telefone O telefone do cliente.
+     */
+    public Cliente(String nome, String email, boolean ativo, String spf, String telefone){
         this.nome = nome;
+        this.email = email;
         this.ativo = ativo;
+        this.cpf = spf;
+        this.telefone = telefone;
     }
-
 }

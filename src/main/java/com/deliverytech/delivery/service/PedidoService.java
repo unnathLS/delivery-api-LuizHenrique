@@ -2,60 +2,61 @@ package com.deliverytech.delivery.service;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.deliverytech.delivery.entity.ItemPedido;
 import com.deliverytech.delivery.entity.Pedido;
 import com.deliverytech.delivery.entity.Produto;
-import com.deliverytech.delivery.repository.ClienteRepository;
+import com.deliverytech.delivery.entity.Restaurante;
 import com.deliverytech.delivery.repository.PedidoRepository;
 import com.deliverytech.delivery.repository.ProdutoRepository;
+import com.deliverytech.delivery.repository.RestauranteRepository;
 
 @Service
 public class PedidoService {
-    BigDecimal valorTotal = BigDecimal.ZERO;
-
     @Autowired
     private PedidoRepository pedidoRepository;
-
+    @Autowired
+    private RestauranteRepository restauranteRepository;
     @Autowired
     private ProdutoRepository produtoRepository;
 
-    @Autowired
-    private ClienteRepository clienteRepository;
 
-    public Pedido criar(Pedido pedido) {
-        clienteRepository.findById(pedido.getCliente().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado."));
+    public Pedido criarPedido(Pedido pedido) {
+        Restaurante restaurante = restauranteRepository.findById(pedido.getRestaurante().getId())
+                .orElseThrow(() -> new IllegalArgumentException("Restaurante não encontrado."));
 
-        for (Produto produto : pedido.getProdutos()) {
-            Produto produtoExistente = produtoRepository.findById(produto.getId())
-                    .orElseThrow(() -> new IllegalArgumentException(
-                            "Produto com ID " + produto.getId() + " não encontrado."));
-            valorTotal = valorTotal.add(produtoExistente.getPreco());
-        }
+        BigDecimal valorTotal = CalcularValorTotal(pedido.getItens());
 
-        pedido.setValorTotal(valorTotal);
-        pedido.setStatus("Em processamento.");
+        valorTotal = valorTotal.add(restaurante.getTaxaEntrega());
+        // pedido.setValorTotal(valorTotal);
+        pedido.setRestaurante(restaurante);
 
         return pedidoRepository.save(pedido);
     }
 
-    public List<Pedido> buscarTodos() {
+    private BigDecimal CalcularValorTotal(List<ItemPedido> itens) {
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (ItemPedido item : itens) {
+            Produto produto = produtoRepository.findById(item.getProduto().getId())
+                    .orElseThrow(() -> new RuntimeException("Produto não encontrado: " + item.getProduto().getId()));
+            item.setProduto(produto); // garante que o produto está completo com preço
+        }
+        return total;
+    }
+
+    public List<Pedido> buscarPedidos() {
         return pedidoRepository.findAll();
     }
 
-    public Optional<Pedido> buscarPorId(Long id) {
-        return pedidoRepository.findById(id);
+    public List<Pedido> buscarPedidosProCliente(Long clienteId) {
+        return pedidoRepository.findByClienteId(clienteId);
     }
 
-    public Pedido atualizarStatus(Long id, String novoStatus) {
-        return pedidoRepository.findById(id)
-                .map(pedidoExistente -> {
-                            pedidoExistente.setStatus(novoStatus);
-                            return pedidoRepository.save(pedidoExistente);
-                        }) .orElseThrow(() -> new IllegalArgumentException("Pedido não encontrado."));
-    }
-
+    // public List<Pedido> buscarPedidosPorRestaurante(long restauranteId) {
+    // return restauranteRepository.findByRestauranteId(restauranteId);
+    // }
 }

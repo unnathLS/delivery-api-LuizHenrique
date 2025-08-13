@@ -1,4 +1,4 @@
-package com.deliverytech.delivery.entity;
+package com.deliverytech.delivery.dto;
 
 public enum StatusPedido {
     PREPARANDO,
