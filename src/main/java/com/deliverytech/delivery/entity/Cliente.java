@@ -1,5 +1,12 @@
 package com.deliverytech.delivery.entity;
+
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+// import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+// import jakarta.validation.constraints.Size;
+// import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Entity
@@ -8,30 +15,32 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+
+@Table(name = "cliente", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email"),
+})
 public class Cliente {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "O nome é obrigatório")
     private String nome;
-    private String email;
-    private boolean ativo;
-    private String cpf;
-    private String telefone;
 
-    /**
-     * Construtor para criar um cliente com os campos obrigatórios.
-     *
-     * @param nome O nome do cliente.
-     * @param email O email do cliente.
-     * @param ativo Indica se o cliente está ativo.
-     * @param cpf O CPF do cliente.
-     * @param telefone O telefone do cliente.
-     */
-    public Cliente(String nome, String email, boolean ativo, String spf, String telefone){
-        this.nome = nome;
-        this.email = email;
-        this.ativo = ativo;
-        this.cpf = spf;
-        this.telefone = telefone;
-    }
+    @NotBlank(message = "O email é obrigatório")
+    @Email(message = "Email inválido")
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    // @NotBlank(message = "O CPF é obrigatório")
+    // @Pattern(regexp = "\\d{11}", message = "CPF deve conter exatamente 11 dígitos
+    // númericos")
+    // @Column(nullable = false , unique = true, length = 11)
+    // private String cpf;
+
+    @NotBlank(message = "O telefone é obrigatório")
+    @Pattern(regexp = "\\(?\\d{2}\\)?\\s?9\\d{4}-?\\d{4}", message = "Número de telefone Inválido.")
+    private String telefone;
+    private boolean ativo;
+
 }
