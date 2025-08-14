@@ -42,4 +42,30 @@ public class ClienteService {
     public Optional<Cliente> buscarClientePorId(Long id) {
         return clienteRepository.findById(id);
     }
+
+    public Cliente atualizarCliente(Long id, Cliente clienteAtualizado){    
+        return clienteRepository.findById(id)
+            .map(clienteExistente ->{
+                clienteExistente.setEmail(clienteAtualizado.getEmail());
+                clienteExistente.setTelefone(clienteAtualizado.getTelefone());
+                return clienteRepository.save(clienteExistente);
+            }).orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado com o ID: " + id));
+    }
+
+    public void desativarCliente(Long id){
+        Cliente cliente = clienteRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado com o ID: " + id));
+        cliente.setAtivo(false);
+        clienteRepository.save(cliente);
+    }
+
+    public void ativarCLiente(Long id){
+        Cliente cliente = clienteRepository.findById(id)
+        .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
+        cliente.setAtivo(true);
+        clienteRepository.save(cliente);
+    }
+
+
+
 }

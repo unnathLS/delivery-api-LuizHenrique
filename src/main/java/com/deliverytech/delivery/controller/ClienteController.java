@@ -1,12 +1,13 @@
 package com.deliverytech.delivery.controller;
 
 import java.util.List;
-import java.util.Optional;
+// import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 // import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +18,7 @@ import com.deliverytech.delivery.entity.Cliente;
 import com.deliverytech.delivery.service.ClienteService;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/clientes")
@@ -49,4 +51,22 @@ public class ClienteController {
                 .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
         return new ResponseEntity<>(cliente, HttpStatus.OK);
     }
+
+    @PatchMapping("/ativar/{id}")
+    public ResponseEntity<Cliente> ativar(@PathVariable Long id) {
+        clienteService.ativarCLiente(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PatchMapping("/desativar/{id}")
+    public ResponseEntity<Cliente> desativar(@PathVariable Long id) {
+        clienteService.desativarCliente(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/atualizar/{id}")
+public ResponseEntity<Cliente> atualizar(@PathVariable Long id, @RequestBody Cliente clienteAtualizado) {
+    Cliente cliente = clienteService.atualizarCliente(id, clienteAtualizado);
+    return ResponseEntity.ok(cliente);
+}
 }
