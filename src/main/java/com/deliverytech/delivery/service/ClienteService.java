@@ -15,14 +15,9 @@ public class ClienteService {
     private final ClienteRepository clienteRepository;
 
     public Cliente cadastroCliente(Cliente cliente) {
-        if (cliente.getEmail() == null || cliente.getEmail().trim().isEmpty()) {
-            throw new IllegalArgumentException("Email é obrigatório");
-        }
+        // TODO: Padrinizar telefone antes de salvar no banco de dados
         if (clienteRepository.existsByEmail(cliente.getEmail())) {
             throw new IllegalArgumentException("Email já cadastrado");
-        }
-        if (cliente.getTelefone() == null || cliente.getTelefone().isEmpty()) {
-            throw new IllegalArgumentException("Telefone é obrigatório");
         }
         if (clienteRepository.existsByTelefone(cliente.getTelefone())) {
             throw new IllegalArgumentException("Telefone já cadastrado");
@@ -30,8 +25,8 @@ public class ClienteService {
         cliente.setAtivo(true);
         return clienteRepository.save(cliente);
     }
-    
-    public List<Cliente> listarCliente(){
+
+    public List<Cliente> listarCliente() {
         return clienteRepository.findAll();
     }
 
@@ -43,29 +38,27 @@ public class ClienteService {
         return clienteRepository.findById(id);
     }
 
-    public Cliente atualizarCliente(Long id, Cliente clienteAtualizado){    
+    public Cliente atualizarCliente(Long id, Cliente clienteAtualizado) {
         return clienteRepository.findById(id)
-            .map(clienteExistente ->{
-                clienteExistente.setEmail(clienteAtualizado.getEmail());
-                clienteExistente.setTelefone(clienteAtualizado.getTelefone());
-                return clienteRepository.save(clienteExistente);
-            }).orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado com o ID: " + id));
+                .map(clienteExistente -> {
+                    clienteExistente.setEmail(clienteAtualizado.getEmail());
+                    clienteExistente.setTelefone(clienteAtualizado.getTelefone());
+                    return clienteRepository.save(clienteExistente);
+                }).orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado com o ID: " + id));
     }
 
-    public void desativarCliente(Long id){
+    public void desativarCliente(Long id) {
         Cliente cliente = clienteRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado com o ID: " + id));
+                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado com o ID: " + id));
         cliente.setAtivo(false);
         clienteRepository.save(cliente);
     }
 
-    public void ativarCLiente(Long id){
+    public void ativarCLiente(Long id) {
         Cliente cliente = clienteRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
+                .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
         cliente.setAtivo(true);
         clienteRepository.save(cliente);
     }
-
-
 
 }

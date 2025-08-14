@@ -65,8 +65,8 @@ public class ClienteController {
     }
 
     @PutMapping("/atualizar/{id}")
-public ResponseEntity<Cliente> atualizar(@PathVariable Long id, @RequestBody Cliente clienteAtualizado) {
-    Cliente cliente = clienteService.atualizarCliente(id, clienteAtualizado);
-    return ResponseEntity.ok(cliente);
-}
+    public ResponseEntity<Cliente> atualizar(@PathVariable Long id, @RequestBody Cliente clienteAtualizado) {
+        Cliente cliente = clienteService.atualizarCliente(id, clienteAtualizado);
+        return ResponseEntity.ok(cliente);
+    }
 }
