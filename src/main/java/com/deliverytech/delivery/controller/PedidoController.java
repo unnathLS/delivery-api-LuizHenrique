@@ -15,22 +15,6 @@ import com.deliverytech.delivery.service.PedidoService;
 @RestController
 @RequestMapping("/pedidos")
 public class PedidoController {
-
-    private final PedidoService pedidoService;
-
-    public PedidoController(PedidoService pedidoService) {
-        this.pedidoService = pedidoService;
-    }
-
-    @GetMapping("/todos")
-    public List<Pedido> listarTodosPedidos() {
-        return pedidoService.buscarPedidos();
-    }
-
-    @PostMapping
-    public ResponseEntity<Pedido> pedidoFeito(@RequestBody Pedido pedido) {
-        Pedido pedidoCriado = pedidoService.criarPedido(pedido);
-        return ResponseEntity.ok(pedidoCriado);
-    }
+    // TODO: Implementar controller
 
 }

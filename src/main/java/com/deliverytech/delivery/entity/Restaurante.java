@@ -54,12 +54,11 @@ public class Restaurante {
 
     private String descricao;
 
-    @Column(nullable = false, length = 500)
     private String comentario;
 
     @DecimalMin("0.0")
     @DecimalMax("5.0")
-    @Column(nullable = false)
+
     private String avalicao;
 
     @NotBlank(message = "A categoria é obrigatória.")

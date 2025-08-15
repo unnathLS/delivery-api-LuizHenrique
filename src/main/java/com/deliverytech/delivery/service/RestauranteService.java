@@ -28,7 +28,7 @@ public class RestauranteService {
         return restauranteRepository.save(restaurante);
     }
 
-    public List<Restaurante> listaRestaurantes() {
+    public List<Restaurante> listarRestaurantes() {
         return restauranteRepository.findAll();
     }
 

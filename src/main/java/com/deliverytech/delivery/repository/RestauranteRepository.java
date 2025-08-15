@@ -18,7 +18,7 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long> 
     @NonNull
     List<Restaurante> findAll();
 
-    List<Restaurante> findByName(String nome);
+    List<Restaurante> findByNome(String nome);
 
     List<Restaurante> findByCategoria(String categoria);
 
