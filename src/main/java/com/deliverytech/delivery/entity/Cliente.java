@@ -42,6 +42,14 @@ public class Cliente {
     @Pattern(regexp = "\\(?\\d{2}\\)?\\s?9\\d{4}-?\\d{4}", message = "Número de telefone Inválido.")
     @Column(nullable = false, unique = true)
     private String telefone;
+
     private boolean ativo;
+
+    public Cliente(String nome, String email, String telefone) {
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+        this.ativo = true; // Default value for ativo
+    }
 
 }

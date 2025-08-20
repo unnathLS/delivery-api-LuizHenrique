@@ -40,11 +40,8 @@ public class Restaurante {
     private String endereco;
 
     @NotBlank(message = "O cpnj do restaurante é obrigatório.")
-    @Pattern(
-    regexp = "\\d{14}|\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}",
-    message = "CNPJ deve ter 14 dígitos numéricos ou estar no formato 00.000.000/0000-00."
-)
-    @Column(nullable = false, unique = true, length = 14)
+    @Pattern(regexp = "\\d{14}|\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}", message = "CNPJ deve ter 14 dígitos numéricos ou estar no formato 00.000.000/0000-00.")
+    @Column(nullable = false, unique = true, length = 18)
     private String cnpj;
 
     @PositiveOrZero
@@ -65,5 +62,11 @@ public class Restaurante {
     private String categoria;
 
     private boolean ativo;
+
+    public Restaurante(String nome, String email, String telefone) {
+        this.nome = nome;
+        this.email = email;
+        this.telefone = telefone;
+    }
 
 }

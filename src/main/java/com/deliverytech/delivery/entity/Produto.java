@@ -42,4 +42,11 @@ public class Produto {
     @JoinColumn(name = "restaurante_id", nullable = false)
     // @NotNull(message = "O restaurate do produto é obrigatório.")
     private Restaurante restaurante;
+
+    public Produto(String nome, String descricao, BigDecimal preco, Restaurante restaurante) {
+        this.nome = nome;
+        this.descricao = descricao;
+        this.preco = preco;
+        this.restaurante = restaurante;
+    }
 }

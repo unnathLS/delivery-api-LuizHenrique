@@ -1,12 +1,16 @@
 package com.deliverytech.delivery.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
+
+import com.deliverytech.delivery.enums.StatusPedido;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "pedidos")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -18,28 +22,36 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String clienteNome;
-
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemPedido> itens;
 
-    // private BigDecimal valorTotal;
+    @Column(name = "data_atualizacao")
+    private LocalDateTime dataAtualizacao;
+
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
-    @ManyToOne
-    @JoinColumn(name = "restaurante_id")
-    private Restaurante restaurante;
+    // @ManyToOne
+    // @JoinColumn(name = "restaurante_id")
+    // private Restaurante restaurante;
 
-    public BigDecimal getValorTotal() {
-        if (itens == null || itens.isEmpty()) {
-            return BigDecimal.ZERO;
+    @Column(name = "valor_total", nullable = false)
+    private BigDecimal valorTotal;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private StatusPedido status;
+
+    @Column(name = "data_criacao", updatable = false, nullable = false)
+    private LocalDateTime dataCriacao;
+
+
+    @PrePersist
+    public void prePersist() {
+        this.dataCriacao = LocalDateTime.now();
+        if (this.status == null) {
+            this.status = StatusPedido.PENDENTE;
         }
-        return itens.stream()
-                .map(item -> item.getProduto().getPreco().multiply(BigDecimal.valueOf(item.getQuantidade())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add)
-                .add(restaurante != null && restaurante.getTaxaEntrega() != null ? restaurante.getTaxaEntrega()
-                        : BigDecimal.ZERO);
     }
 }
