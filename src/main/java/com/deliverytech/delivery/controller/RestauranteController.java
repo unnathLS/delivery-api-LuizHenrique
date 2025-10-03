@@ -2,7 +2,6 @@ package com.deliverytech.delivery.controller;
 
 import java.util.*;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +16,6 @@ import com.deliverytech.delivery.entity.Restaurante;
 import com.deliverytech.delivery.service.RestauranteService;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/restaurantes")

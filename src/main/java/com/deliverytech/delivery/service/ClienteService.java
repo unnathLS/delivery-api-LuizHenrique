@@ -38,6 +38,10 @@ public class ClienteService {
         return clienteRepository.findById(id);
     }
 
+    public Optional<Cliente> buscarClientePorEmail(String email){
+        return clienteRepository.findByEmail(email);
+    }
+
     public Cliente atualizarCliente(Long id, Cliente clienteAtualizado) {
         return clienteRepository.findById(id)
                 .map(clienteExistente -> {

@@ -15,6 +15,8 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
     List<Cliente> findByAtivoTrue();
 
+    
+
     @Override
     @NonNull
     List<Cliente> findAll();
