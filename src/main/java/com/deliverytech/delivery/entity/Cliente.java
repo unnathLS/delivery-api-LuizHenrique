@@ -10,10 +10,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
 @ToString
 
 @Table(name = "cliente", uniqueConstraints = {
@@ -24,11 +21,12 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "O nome é obrigatório")
+
+    @NotBlank(message = "O nome é obrigatório.")
     private String nome;
 
-    @NotBlank(message = "O email é obrigatório")
-    @Email(message = "Email inválido")
+    @NotBlank(message = "O email é obrigatório.")
+    @Email(message = "Email inválido.")
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -38,14 +36,17 @@ public class Cliente {
     // @Column(nullable = false , unique = true, length = 11)
     // private String cpf;
 
-    @NotBlank(message = "O telefone é obrigatório")
+    @NotBlank(message = "O telefone é obrigatório.")
     @Pattern(regexp = "\\(?\\d{2}\\)?\\s?9\\d{4}-?\\d{4}", message = "Número de telefone Inválido.")
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String telefone;
 
     private boolean ativo;
 
-    public Cliente(String nome, String email, String telefone) {
+    public Cliente() {
+    }
+
+    public Cliente(String nome, String email, String telefone, String endereco, boolean ativo) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;

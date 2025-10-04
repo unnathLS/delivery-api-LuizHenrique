@@ -9,19 +9,14 @@ import java.util.*;
 
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
-    @Override
-    @NonNull
-    Optional<Cliente> findById(Long id);
+    @Override    
+    Optional<Cliente> findById(@NonNull Long id);
 
     List<Cliente> findByAtivoTrue();
 
-    
-
-    @Override
-    @NonNull
-    List<Cliente> findAll();
-
     Optional<Cliente> findByEmail(String email);
+
+
 
     boolean existsByEmail(String email);
 
