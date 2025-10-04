@@ -1,10 +1,9 @@
 package com.deliverytech.delivery.service;
 
 import java.util.List;
-// import java.util.Optional;
-// import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.deliverytech.delivery.dto.ClienteRequestDTO;
@@ -18,101 +17,73 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class ClienteService {
+
     private final ClienteRepository clienteRepository;
+    private final ModelMapper modelMapper;
 
     public ClienteResponseDTO cadastroCliente(ClienteRequestDTO requestDTO) {
-        Cliente clienteCadastro = mapToEntity(requestDTO);
-
         if (clienteRepository.existsByEmail(requestDTO.getEmail())) {
-            throw new IllegalArgumentException("E-mail já cadastro!");
+            throw new IllegalArgumentException("E-mail já cadastrado!");
         }
+
+        // Mapear DTO para entidade automaticamente
+        Cliente clienteCadastro = modelMapper.map(requestDTO, Cliente.class);
+        clienteCadastro.setAtivo(true); // garantir que cliente novo esteja ativo
 
         Cliente clienteCadastrado = clienteRepository.save(clienteCadastro);
 
-        return mapToResponseDTO(clienteCadastrado);
+        // Mapear entidade para DTO de response
+        return modelMapper.map(clienteCadastrado, ClienteResponseDTO.class);
     }
 
     public List<ClienteResponseDTO> listarClientes() {
-        List<Cliente> clientes = clienteRepository.findAll();
-
-        return clientes.stream()
-                .map(this::mapToResponseDTO)
+        return clienteRepository.findAll()
+                .stream()
+                .map(cliente -> modelMapper.map(cliente, ClienteResponseDTO.class))
                 .collect(Collectors.toList());
-
     }
 
     public List<ClienteResponseDTO> listarClientesAtivos() {
-
-        List<Cliente> clientes = clienteRepository.findAll();
-        return clientes.stream()
-                .filter(cliente -> cliente.isAtivo())
-                .map(this::mapToResponseDTO)
+        return clienteRepository.findAll()
+                .stream()
+                .filter(Cliente::isAtivo)
+                .map(cliente -> modelMapper.map(cliente, ClienteResponseDTO.class))
                 .collect(Collectors.toList());
-
     }
 
     public ClienteResponseDTO busarClientePorId(Long id) {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
 
-        return new ClienteResponseDTO(cliente.getId(), cliente.getNome(), cliente.getEmail(), cliente.getTelefone(),
-                cliente.isAtivo());
+        return modelMapper.map(cliente, ClienteResponseDTO.class);
     }
 
     public ClienteResponseDTO buscarClientePorEmail(String email) {
         Cliente cliente = clienteRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("Email não encontrado"));
 
-        return new ClienteResponseDTO(cliente.getId(), cliente.getNome(), cliente.getEmail(), cliente.getTelefone(),
-                cliente.isAtivo());
+        return modelMapper.map(cliente, ClienteResponseDTO.class);
     }
 
     public ClienteResponseDTO atualizarCliente(Long id, ClienteRequestDTO dto) {
         Cliente clienteExistente = clienteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
 
-        clienteExistente.setNome(dto.getNome());
-        clienteExistente.setEmail(dto.getEmail());
-        clienteExistente.setTelefone(dto.getTelefone());
+        // Atualizar campos do DTO para a entidade existente
+        modelMapper.map(dto, clienteExistente);
 
         Cliente clienteAtualizado = clienteRepository.save(clienteExistente);
 
-        return mapToResponseDTO(clienteAtualizado);
+        return modelMapper.map(clienteAtualizado, ClienteResponseDTO.class);
     }
 
     public ClienteResponseDTO desativarCliente(Long id) {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
+
         cliente.setAtivo(!cliente.isAtivo());
         Cliente clienteAtualizado = clienteRepository.save(cliente);
 
-        return mapToResponseDTO(clienteAtualizado);
+        return modelMapper.map(clienteAtualizado, ClienteResponseDTO.class);
     }
-
-    // public void ativarCLiente(Long id) {
-    // Cliente cliente = clienteRepository.findById(id)
-    // .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
-    // cliente.setAtivo(true);
-    // clienteRepository.save(cliente);
-    // }
-
-    private Cliente mapToEntity(ClienteRequestDTO dto) {
-        Cliente cliente = new Cliente();
-
-        cliente.setNome(dto.getNome());
-        cliente.setEmail(dto.getEmail());
-        cliente.setTelefone(dto.getTelefone());
-        cliente.setAtivo(true);
-        return cliente;
-    }
-
-    private ClienteResponseDTO mapToResponseDTO(Cliente entity) {
-        return new ClienteResponseDTO(
-                entity.getId(),
-                entity.getNome(),
-                entity.getTelefone(),
-                entity.getEmail(),
-                entity.isAtivo());
-    }
-
 }
