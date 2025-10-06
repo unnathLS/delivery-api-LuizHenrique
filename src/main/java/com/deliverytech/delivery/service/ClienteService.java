@@ -6,12 +6,13 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.deliverytech.delivery.exception.EntityNotFoundException;
 import com.deliverytech.delivery.dto.ClienteRequestDTO;
 import com.deliverytech.delivery.dto.ClienteResponseDTO;
 import com.deliverytech.delivery.entity.Cliente;
+import com.deliverytech.delivery.exception.BusinessException;
 import com.deliverytech.delivery.repository.ClienteRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -23,7 +24,7 @@ public class ClienteService {
 
     public ClienteResponseDTO cadastroCliente(ClienteRequestDTO requestDTO) {
         if (clienteRepository.existsByEmail(requestDTO.getEmail())) {
-            throw new IllegalArgumentException("E-mail já cadastrado!");
+            throw new BusinessException("E-mail já cadastrado!");
         }
 
         // Mapear DTO para entidade automaticamente
@@ -51,7 +52,7 @@ public class ClienteService {
                 .collect(Collectors.toList());
     }
 
-    public ClienteResponseDTO busarClientePorId(Long id) {
+    public ClienteResponseDTO buscarClientePorId(Long id) {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
 
