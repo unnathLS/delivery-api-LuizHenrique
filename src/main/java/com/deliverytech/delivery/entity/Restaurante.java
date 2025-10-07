@@ -1,15 +1,12 @@
 package com.deliverytech.delivery.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.math.RoundingMode;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 
 @Entity
@@ -24,49 +21,50 @@ public class Restaurante {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "O nome do restaurante é obrigatório.")
     private String nome;
-
-    @NotBlank(message = "O email do restaurante é obrigatório.")
-    @Email(message = "Email inválido.")
-    @Column(nullable = false, unique = true)
-    private String email;
-
-    @NotBlank(message = "O telefone do restaurante é obrigatório.")
-    @Pattern(regexp = "\\(?\\d{2}\\)?\\s?9\\d{4}-?\\d{4}", message = "Número de telefone Inválido.")
-    private String telefone;
-
-    @NotBlank(message = "O endereço do restaurante é obrigatório.")
-    private String endereco;
-
-    @NotBlank(message = "O cpnj do restaurante é obrigatório.")
-    @Pattern(regexp = "\\d{14}|\\d{2}\\.\\d{3}\\.\\d{3}/\\d{4}-\\d{2}", message = "CNPJ deve ter 14 dígitos numéricos ou estar no formato 00.000.000/0000-00.")
-    @Column(nullable = false, unique = true, length = 18)
-    private String cnpj;
-
-    @PositiveOrZero
-    @Digits(integer = 6, fraction = 2)
-    @Column(nullable = false)
-    private BigDecimal taxaEntrega;
-
     private String descricao;
-
-    private String comentario;
-
-    @DecimalMin("0.0")
-    @DecimalMax("5.0")
-
-    private String avalicao;
-
-    @NotBlank(message = "A categoria é obrigatória.")
+    private String emailContato;
+    private String telefone;
+    private String endereco;
+    private String cnpj;
+    private BigDecimal avaliacao;
+    private BigDecimal taxaEntrega;
+    private String observacao;
     private String categoria;
+    private boolean status = true;
 
-    private boolean ativo;
+    private LocalDateTime dataCadastro = LocalDateTime.now();
 
-    public Restaurante(String nome, String email, String telefone) {
+    // @OneToMany(mappedBy = "restaurante", cascade = CascadeType.ALL, orphanRemoval
+    // = true)
+    // private List<Avaliacao> avaliacoes = new ArrayList<>();
+
+    // public void atualizarMediaAvaliacao() {
+    // if (avaliacoes.isEmpty()) {
+    // this.avaliacao = BigDecimal.ZERO;
+    // return;
+    // }
+    // BigDecimal soma = avaliacoes.stream()
+    // .map(Avaliacao::getNota)
+    // .reduce(BigDecimal.ZERO, BigDecimal::add);
+    // // no entity mantém exato
+    // this.avaliacao = soma.divide(BigDecimal.valueOf(avaliacoes.size()));
+
+    // // no DTO ou Controller
+    // BigDecimal avaliacaoFormatada = restaurante.getAvaliacao().setScale(1,
+    // BigDecimal.ROUND_HALF_UP);
+
+    // }
+
+    public Restaurante(String nome, String descricao, String emailContato, String telefone,
+            String endereco, String cnpj, BigDecimal taxaEntrega, String categoria) {
         this.nome = nome;
-        this.email = email;
+        this.descricao = descricao;
+        this.emailContato = emailContato;
         this.telefone = telefone;
+        this.endereco = endereco;
+        this.cnpj = cnpj;
+        this.taxaEntrega = taxaEntrega;
+        this.categoria = categoria;
     }
-
 }
