@@ -12,7 +12,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
     @Override    
     Optional<Cliente> findById(@NonNull Long id);
 
-    List<Cliente> findByAtivoTrue();
+    List<Cliente> findByStatusTrue();
 
     Optional<Cliente> findByEmail(String email);
 

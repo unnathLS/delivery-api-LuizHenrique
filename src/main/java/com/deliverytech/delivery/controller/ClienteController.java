@@ -59,9 +59,9 @@ public class ClienteController {
         return ResponseEntity.ok(cliente);
     }
 
-    @PatchMapping("/desativar/{id}")
-    public ResponseEntity<ClienteResponseDTO> desativarUsuario(@PathVariable Long id) {
-        ClienteResponseDTO cliente = clienteService.desativarCliente(id);
+    @PatchMapping("/status/{id}")
+    public ResponseEntity<ClienteResponseDTO> statusUsuario(@PathVariable Long id) {
+        ClienteResponseDTO cliente = clienteService.statusCliente(id);
         return ResponseEntity.ok(cliente);
     }
 

@@ -29,7 +29,7 @@ public class ClienteService {
 
         // Mapear DTO para entidade automaticamente
         Cliente clienteCadastro = modelMapper.map(requestDTO, Cliente.class);
-        clienteCadastro.setAtivo(true); // garantir que cliente novo esteja ativo
+        clienteCadastro.setStatus(true); // garantir que cliente novo esteja ativo
 
         Cliente clienteCadastrado = clienteRepository.save(clienteCadastro);
 
@@ -47,7 +47,7 @@ public class ClienteService {
     public List<ClienteResponseDTO> listarClientesAtivos() {
         return clienteRepository.findAll()
                 .stream()
-                .filter(Cliente::isAtivo)
+                .filter(Cliente::isStatus)
                 .map(cliente -> modelMapper.map(cliente, ClienteResponseDTO.class))
                 .collect(Collectors.toList());
     }
@@ -78,11 +78,11 @@ public class ClienteService {
         return modelMapper.map(clienteAtualizado, ClienteResponseDTO.class);
     }
 
-    public ClienteResponseDTO desativarCliente(Long id) {
+    public ClienteResponseDTO statusCliente(Long id) {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado"));
 
-        cliente.setAtivo(!cliente.isAtivo());
+        cliente.setStatus(!cliente.isStatus());
         Cliente clienteAtualizado = clienteRepository.save(cliente);
 
         return modelMapper.map(clienteAtualizado, ClienteResponseDTO.class);

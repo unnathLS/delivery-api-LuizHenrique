@@ -41,7 +41,10 @@ public class Cliente {
     @Column(nullable = false)
     private String telefone;
 
-    private boolean ativo;
+    @NotBlank(message = "O endereço é obrigatório.")
+    private String endereco;
+
+    private boolean status;
 
     public Cliente() {
     }
@@ -50,7 +53,8 @@ public class Cliente {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
-        this.ativo = true; // Default value for ativo
+        this.endereco = endereco;
+        this.status = true; // Default value for ativo
     }
 
 }
