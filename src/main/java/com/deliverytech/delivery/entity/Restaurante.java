@@ -27,7 +27,7 @@ public class Restaurante {
     private String telefone;
     private String endereco;
     private String cnpj;
-    private BigDecimal avaliacao;
+    // private BigDecimal avaliacao;
     private BigDecimal taxaEntrega;
     private String observacao;
     private String categoria;

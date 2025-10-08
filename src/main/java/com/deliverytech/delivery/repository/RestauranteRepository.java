@@ -20,15 +20,15 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long> 
 
     List<Restaurante> findByNome(String nome);
 
-    List<Restaurante> findByCategoria(String categoria);
+    List<Restaurante> findByCategoriaContainingIgnoreCase(String categoria);
 
     List<Restaurante> findByStatusTrue();
 
-    List<Restaurante> findByAvalicao(String avalicao);
+    // List<Restaurante> findByAvalicao(String avalicao);
 
-    boolean existsByEmail(String email);
+    // boolean existsByEmail(String email);
 
-    boolean existsByTelefone(String telefone);
+    // boolean existsByTelefone(String telefon2e);
 
     boolean existsByCnpj(String cpnj);
 
